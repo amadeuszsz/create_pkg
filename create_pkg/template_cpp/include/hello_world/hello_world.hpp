@@ -12,27 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "hello_world/hello_world_node.hpp"
+#ifndef HELLO_WORLD__HELLO_WORLD_HPP_
+#define HELLO_WORLD__HELLO_WORLD_HPP_
+
+#include <cstdint>
+
+#include "hello_world/visibility_control.hpp"
+
 
 namespace hello_world
 {
 
-HelloWorldNode::HelloWorldNode(const rclcpp::NodeOptions & options)
-:  Node("hello_world", options)
+class HELLO_WORLD_PUBLIC HelloWorld
 {
-  hello_world_ = std::make_unique<hello_world::HelloWorld>();
-  const int64_t param_name = this->declare_parameter("param_name", 456);
-  hello_world_->setParameters(param_name);
-  this->foo();
-}
+public:
+  HelloWorld();
+  void setParameters(int64_t param_name);
+  int64_t printHello() const;
 
-void HelloWorldNode::foo()
-{
-  hello_world_->print_hello();
-}
+private:
+  int64_t param_name_{123};
+};
 
 }  // namespace hello_world
 
-#include "rclcpp_components/register_node_macro.hpp"
-
-RCLCPP_COMPONENTS_REGISTER_NODE(hello_world::HelloWorldNode)
+#endif  // HELLO_WORLD__HELLO_WORLD_HPP_

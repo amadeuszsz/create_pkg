@@ -84,13 +84,17 @@ def main():
     parser.add_argument("--description",
                         required=True,
                         help="Description of package (for package.xml)")
+    parser.add_argument("--type",
+                        default="cpp",
+                        choices=["cpp", "python"],
+                        help="Package type (cpp or python)")
     args = parser.parse_args()
 
     dest = os.path.join(args.destination, args.pkg_name)
 
     # Copy the template package to the desired location
     template_pkg_dir = os.path.join(
-      get_package_share_directory('create_pkg'), 'template')
+        get_package_share_directory('create_pkg'), f'template_{args.type}')
     copy(template_pkg_dir, dest)
 
     # Remove COLCON_IGNORE

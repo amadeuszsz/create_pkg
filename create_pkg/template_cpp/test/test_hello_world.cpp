@@ -12,26 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "gtest/gtest.h"
 #include "hello_world/hello_world.hpp"
 
-#include <iostream>
-
-namespace hello_world
-{
-
-HelloWorld::HelloWorld()
-{
+TEST(TestHelloWorld, TestHello) {
+  std::unique_ptr<hello_world::HelloWorld> hello_world_ =
+    std::make_unique<hello_world::HelloWorld>();
+  auto result = hello_world_->printHello();
+  EXPECT_EQ(result, 123);
 }
-
-void HelloWorld::setParameters(int64_t param_name)
-{
-  param_name_ = param_name;
-}
-
-int64_t HelloWorld::print_hello() const
-{
-  std::cout << "Hello World, " << param_name_ << std::endl;
-  return param_name_;
-}
-
-}  // namespace hello_world

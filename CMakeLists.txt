@@ -34,14 +34,13 @@ install(PROGRAMS ${PROJECT_NAME}/main.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Install template
-install(DIRECTORY ${PROJECT_NAME}/template/
-  DESTINATION share/${PROJECT_NAME}/template/
+# Install templates
+install(DIRECTORY ${PROJECT_NAME}/template_cpp/
+  DESTINATION share/${PROJECT_NAME}/template_cpp/
 )
 
-# Install config
-install(DIRECTORY ${PROJECT_NAME}/template/
-  DESTINATION share/${PROJECT_NAME}/template/
+install(DIRECTORY ${PROJECT_NAME}/template_python/
+  DESTINATION share/${PROJECT_NAME}/template_python/
 )
 
 ament_auto_package()
