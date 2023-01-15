@@ -12,21 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
-def generate_launch_description():
-    pkg_prefix = get_package_share_directory("hello_world")
-
-    config_param = DeclareLaunchArgument(
-        'config_param_file',
-        default_value=[pkg_prefix, '/param/defaults.param.yaml'],
-        description='Node config.'
-    )
+def launch_setup(context, *args, **kwargs):
+    pkg_prefix = FindPackageShare("hello_world")
+    config_param = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('config_param_file')])
 
     hello_world_node = Node(
             name='hello_world_node',
@@ -34,14 +29,28 @@ def generate_launch_description():
             package='hello_world',
             executable='hello_world_node.py',
             parameters=[
-                LaunchConfiguration('config_param_file')
+                config_param
             ],
             output='screen',
             arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs'],
             emulate_tty=True
     )
 
+    return [hello_world_node]
+
+
+def generate_launch_description():
+    declared_arguments = []
+
+    declared_arguments.append(
+            DeclareLaunchArgument(
+                'config_param_file',
+                default_value='param/defaults.param.yaml',
+                description='Node config (relative path).'
+            )
+    )
+
     return LaunchDescription([
-        config_param,
-        hello_world_node
-        ])
+        *declared_arguments,
+        OpaqueFunction(function=launch_setup)
+    ])

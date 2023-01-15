@@ -14,36 +14,26 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import ComposableNodeContainer
-from launch_ros.descriptions import ComposableNode
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
     pkg_prefix = FindPackageShare("hello_world")
-    config_param = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('config_param_file')])
+    # config_param = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('config_param_file')])
+    config_rviz = PathJoinSubstitution([pkg_prefix, 'rviz/default.rviz'])
 
-    container = ComposableNodeContainer(
-            name='hello_world_container',
-            namespace='',
-            package='rclcpp_components',
-            executable='component_container',
-            composable_node_descriptions=[
-                ComposableNode(
-                    package='hello_world',
-                    plugin='hello_world::HelloWorldNode',
-                    name='hello_world_node',
-                    parameters=[
-                        config_param
-                    ],
-                ),
-            ],
-            output='screen',
-            arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs']
+    rviz2 = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', str(config_rviz.perform(context))],
+        condition=IfCondition(LaunchConfiguration('with_rviz'))
     )
 
-    return [container]
+    return [rviz2]
 
 
 def generate_launch_description():
@@ -54,6 +44,14 @@ def generate_launch_description():
                 'config_param_file',
                 default_value='param/defaults.param.yaml',
                 description='Node config (relative path).'
+            )
+    )
+
+    declared_arguments.append(
+            DeclareLaunchArgument(
+                'with_rviz',
+                default_value='False',
+                description='Run RViz2.'
             )
     )
 

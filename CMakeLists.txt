@@ -39,8 +39,16 @@ install(DIRECTORY ${PROJECT_NAME}/template_cpp/
   DESTINATION share/${PROJECT_NAME}/template_cpp/
 )
 
-install(DIRECTORY ${PROJECT_NAME}/template_python/
-  DESTINATION share/${PROJECT_NAME}/template_python/
+install(DIRECTORY ${PROJECT_NAME}/template_python_cmake/
+  DESTINATION share/${PROJECT_NAME}/template_python_cmake/
+)
+
+install(DIRECTORY ${PROJECT_NAME}/template_python_setuptools/
+  DESTINATION share/${PROJECT_NAME}/template_python_setuptools/
+)
+
+install(DIRECTORY ${PROJECT_NAME}/template_launch/
+  DESTINATION share/${PROJECT_NAME}/template_launch/
 )
 
 ament_auto_package()

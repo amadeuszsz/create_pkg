@@ -86,7 +86,7 @@ def main():
                         help="Description of package (for package.xml)")
     parser.add_argument("--type",
                         default="cpp",
-                        choices=["cpp", "python"],
+                        choices=["cpp", "python_cmake", "python_setuptools", "launch"],
                         help="Package type (cpp or python)")
     args = parser.parse_args()
 
@@ -106,15 +106,11 @@ def main():
     # Find and replace all hello_world and HELLO_WORLD with pkg_name and PKG_NAME
     for root, _, files in os.walk(dest):
         for filename in files:
-            if filename == 'package.xml':
-                find_and_replace(os.path.join(root, filename),
-                                 args.pkg_name,
-                                 args.email,
-                                 description=args.description,
-                                 maintainer=args.maintainer)
-            else:
-                find_and_replace(os.path.join(root, filename), args.pkg_name, args.email,
-                                 maintainer=args.maintainer)
+            find_and_replace(os.path.join(root, filename),
+                             args.pkg_name,
+                             args.email,
+                             description=args.description,
+                             maintainer=args.maintainer)
             if 'hello_world' in filename:
                 new_filename = filename.replace('hello_world', args.pkg_name)
                 os.rename(os.path.join(root, filename), os.path.join(root, new_filename))

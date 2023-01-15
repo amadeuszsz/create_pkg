@@ -46,7 +46,7 @@ To use the tool, run the following:
 ```
 user$ source ~/ros2_ws/install/setup.bash
 user$ cd ~/ros2_ws/src/<path_to_folder_containing_your_new_package>
-user$ ros2 run create_pkg main.py --pkg-name PKG_NAME --maintainer MAINTAINER --email EMAIL --description DESCRIPTION --type cpp
+user$ ros2 run create_pkg main.py --pkg-name PKG_NAME --maintainer MAINTAINER --email EMAIL --description DESCRIPTION --destination . --type cpp
 ```
 
 In the above commands, replace `<path_to_folder_containing_your_new_package>` with the path to the folder where you want to create your package.
@@ -60,13 +60,18 @@ To obtain more details on the command-line usage, call:
 user$ ros run create_pkg main.py --help
 ```
 
+Script allows create different package types:
+* cpp - ament_cmake_auto package
+* python_cmake - ament_cmake_python package
+* python_setuptools - setuptools package (symlinks not supported, thus you shouldn't use --symlink-install flag in colcon build command)
+* launch - ament_cmake_auto (portable package for launch files and configuration files)
+
 Once the package has been created with for example `--pkg-name foo`, build and test it.
 
 ```
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=On --packages-select foo
-colcon test --packages-select foo
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=On --packages-select foo
+colcon test --packages-select foo && colcon test-result --verbose
 ```
-For python packages you can omit cmake flags. For more convenient development `--symlink-install` is suggested (only cpp). **Python packages built with symlinks will not work!**
 
 Then follow these steps to run the node from a launch file:
 
@@ -78,7 +83,7 @@ ros2 launch foo foo.launch.py
 The output should be similar to:
 
 ```
-[component_container-1] Hello World
+[component_container-1] Hello World, 789
 [INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/foo_node' in container '/foo_container'
 ```
 
