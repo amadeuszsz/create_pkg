@@ -21,40 +21,50 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_prefix = FindPackageShare("hello_world")
-    config_param = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('config_param_file')])
+    pkg_prefix = FindPackageShare(LaunchConfiguration('param_file_pkg'))
+    config = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('param_file')])
 
     container = ComposableNodeContainer(
-            name='hello_world_container',
-            namespace='',
-            package='rclcpp_components',
-            executable='component_container',
-            composable_node_descriptions=[
+        name='hello_world_container',
+        namespace='',
+        package='rclcpp_components',
+        executable='component_container',
+        composable_node_descriptions=[
                 ComposableNode(
                     package='hello_world',
                     plugin='hello_world::HelloWorldNode',
                     name='hello_world_node',
                     parameters=[
-                        config_param
+                        config
                     ],
                 ),
-            ],
-            output='screen',
-            arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs']
+        ],
+        output='screen',
+        arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs']
     )
 
-    return [container]
+    return [
+        container
+    ]
 
 
 def generate_launch_description():
     declared_arguments = []
 
     declared_arguments.append(
-            DeclareLaunchArgument(
-                'config_param_file',
-                default_value='param/defaults.param.yaml',
-                description='Node config (relative path).'
-            )
+        DeclareLaunchArgument(
+            'param_file_pkg',
+            default_value='hello_world',
+            description="Package name which contains param file."
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'param_file',
+            default_value='param/defaults.param.yaml',
+            description="Param file (relative path)."
+        )
     )
 
     return LaunchDescription([

@@ -24,14 +24,12 @@ except ImportError:
 
 class HelloWorldNode(Node):
     def __init__(self):
-        super().__init__("hello_world_node")
+        super().__init__('hello_world_node')
         self.hello_world = HelloWorld()
-        param_name = self.declare_parameter('param_name', 456).value
-        self.hello_world.setParameters(param_name=param_name)
-        self.foo()
-
-    def foo(self):
-        self.hello_world.printHello()
+        self.hello_world.set_parameters(
+            param_name=self.declare_parameter('param_name', 456).value
+        )
+        self.hello_world.execute()
 
 
 def main(args=None):
@@ -45,5 +43,5 @@ def main(args=None):
         pass
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

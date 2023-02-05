@@ -20,34 +20,44 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_prefix = FindPackageShare("hello_world")
-    config_param = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('config_param_file')])
+    pkg_prefix = FindPackageShare(LaunchConfiguration('param_file_pkg'))
+    config = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('param_file')])
 
     hello_world_node = Node(
-            name='hello_world_node',
-            namespace='',
-            package='hello_world',
-            executable='hello_world_node.py',
-            parameters=[
-                config_param
-            ],
-            output='screen',
-            arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs'],
-            emulate_tty=True
+        name='hello_world_node',
+        namespace='',
+        package='hello_world',
+        executable='hello_world_node.py',
+        parameters=[
+                config
+        ],
+        output='screen',
+        arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs'],
+        emulate_tty=True
     )
 
-    return [hello_world_node]
+    return [
+        hello_world_node
+    ]
 
 
 def generate_launch_description():
     declared_arguments = []
 
     declared_arguments.append(
-            DeclareLaunchArgument(
-                'config_param_file',
-                default_value='param/defaults.param.yaml',
-                description='Node config (relative path).'
-            )
+        DeclareLaunchArgument(
+            'param_file_pkg',
+            default_value='hello_world',
+            description="Package name which contains param file."
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'param_file',
+            default_value='param/defaults.param.yaml',
+            description="Param file (relative path)."
+        )
     )
 
     return LaunchDescription([

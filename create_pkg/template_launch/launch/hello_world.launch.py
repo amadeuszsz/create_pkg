@@ -22,7 +22,6 @@ from launch_ros.substitutions import FindPackageShare
 
 def launch_setup(context, *args, **kwargs):
     pkg_prefix = FindPackageShare("hello_world")
-    # config_param = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('config_param_file')])
     config_rviz = PathJoinSubstitution([pkg_prefix, 'rviz/default.rviz'])
 
     rviz2 = Node(
@@ -33,26 +32,20 @@ def launch_setup(context, *args, **kwargs):
         condition=IfCondition(LaunchConfiguration('with_rviz'))
     )
 
-    return [rviz2]
+    return [
+        rviz2
+    ]
 
 
 def generate_launch_description():
     declared_arguments = []
 
     declared_arguments.append(
-            DeclareLaunchArgument(
-                'config_param_file',
-                default_value='param/defaults.param.yaml',
-                description='Node config (relative path).'
-            )
-    )
-
-    declared_arguments.append(
-            DeclareLaunchArgument(
-                'with_rviz',
-                default_value='False',
-                description='Run RViz2.'
-            )
+        DeclareLaunchArgument(
+            'with_rviz',
+            default_value='False',
+            description="Run RViz2."
+        )
     )
 
     return LaunchDescription([

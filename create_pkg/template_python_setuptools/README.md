@@ -10,7 +10,7 @@
 
 ```bash
 rosdep install --from-paths src --ignore-src -y
-colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=On --packages-up-to hello_world
+colcon build --packages-up-to hello_world
 ```
 
 ## Usage
