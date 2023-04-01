@@ -48,7 +48,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'param_file_pkg',
             default_value='hello_world',
-            description="Package name which contains param file."
+            description='Package name which contains param file.'
         )
     )
 
@@ -56,7 +56,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'param_file',
             default_value='param/defaults.param.yaml',
-            description="Param file (relative path)."
+            description='Param file (relative path).'
         )
     )
 

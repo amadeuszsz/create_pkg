@@ -19,10 +19,10 @@ import pytest
 from hello_world.hello_world import HelloWorld
 
 
-@pytest.mark.parametrize("test_input, expected", [
+@pytest.mark.parametrize('test_input, expected', [
     (456, 456)
 ])
 def test_custom_param(test_input, expected):
     hello_world = HelloWorld()
     hello_world.set_parameters(param_name=test_input)
-    assert hello_world._param_name == expected, "Wrong value after parametrization"
+    assert hello_world._param_name == expected, 'Wrong value after parametrization'

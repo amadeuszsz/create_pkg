@@ -20,6 +20,7 @@ from hello_world.hello_world import HelloWorld
 
 
 class HelloWorldNode(Node):
+
     def __init__(self):
         super().__init__('hello_world_node')
         self.hello_world = HelloWorld()
@@ -40,5 +41,5 @@ def main(args=None):
         pass
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

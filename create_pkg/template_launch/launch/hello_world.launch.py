@@ -21,7 +21,7 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_prefix = FindPackageShare("hello_world")
+    pkg_prefix = FindPackageShare('hello_world')
     config_rviz = PathJoinSubstitution([pkg_prefix, 'rviz/default.rviz'])
 
     rviz2 = Node(
@@ -44,7 +44,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'with_rviz',
             default_value='False',
-            description="Run RViz2."
+            description='Run RViz2.'
         )
     )
 

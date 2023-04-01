@@ -23,6 +23,7 @@ except ImportError:
 
 
 class HelloWorldNode(Node):
+
     def __init__(self):
         super().__init__('hello_world_node')
         self.hello_world = HelloWorld()
