@@ -86,7 +86,7 @@ def main():
                         help="Description of package (for package.xml)")
     parser.add_argument("--type",
                         default="cpp",
-                        choices=["cpp", "python_cmake", "python_setuptools", "launch"],
+                        choices=["cpp", "cpp_autoware", "python_cmake", "python_setuptools", "launch"],
                         help="Package type (cpp or python)")
     args = parser.parse_args()
 

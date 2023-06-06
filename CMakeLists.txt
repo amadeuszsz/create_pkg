@@ -39,6 +39,10 @@ install(DIRECTORY ${PROJECT_NAME}/template_cpp/
   DESTINATION share/${PROJECT_NAME}/template_cpp/
 )
 
+install(DIRECTORY ${PROJECT_NAME}/template_cpp_autoware/
+  DESTINATION share/${PROJECT_NAME}/template_cpp_autoware/
+)
+
 install(DIRECTORY ${PROJECT_NAME}/template_python_cmake/
   DESTINATION share/${PROJECT_NAME}/template_python_cmake/
 )

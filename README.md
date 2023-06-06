@@ -62,6 +62,7 @@ user$ ros run create_pkg main.py --help
 
 Script allows create different package types:
 * cpp - ament_cmake_auto package
+* cpp_autoware - autoware_cmake package
 * python_cmake - ament_cmake_python package
 * python_setuptools - setuptools package (symlinks not supported, thus you shouldn't use --symlink-install flag in colcon build command)
 * launch - ament_cmake_auto (portable package for launch files and configuration files)
