@@ -20,9 +20,9 @@ from hello_world.hello_world import HelloWorld
 
 
 @pytest.mark.parametrize('test_input, expected', [
-    (456, 456)
+    (999, 999)
 ])
-def test_custom_param(test_input, expected):
+def test_foo(test_input, expected):
     hello_world = HelloWorld()
-    hello_world.set_parameters(param_name=test_input)
-    assert hello_world._param_name == expected, 'Wrong value after parametrization'
+    result = hello_world.foo(bar=test_input)
+    assert result == expected, 'Wrong value!'

@@ -27,11 +27,7 @@ class HELLO_WORLD_PUBLIC HelloWorld
 {
 public:
   HelloWorld();
-  void setParameters(int64_t param_name);
-  int64_t printHello() const;
-
-private:
-  int64_t param_name_{123};
+  int64_t foo(int64_t bar) const;
 };
 
 }  // namespace hello_world

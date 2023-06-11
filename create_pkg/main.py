@@ -42,8 +42,8 @@ def find_and_replace(filename, pkg_name, email, description=None, maintainer=Non
         filedata = f.read()
 
     camelcase_pkg_name = ''.join([
-      word.capitalize()
-      for word in pkg_name.split('_')
+        word.capitalize()
+        for word in pkg_name.split('_')
     ])
 
     # Replace the target string
@@ -86,7 +86,13 @@ def main():
                         help="Description of package (for package.xml)")
     parser.add_argument("--type",
                         default="cpp",
-                        choices=["cpp", "cpp_autoware", "python_cmake", "python_setuptools", "launch"],
+                        choices=[
+                            "cpp",
+                            "cpp_autoware",
+                            "python_cmake",
+                            "python_setuptools",
+                            "launch"
+                        ],
                         help="Package type (cpp or python)")
     args = parser.parse_args()
 

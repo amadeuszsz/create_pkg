@@ -13,23 +13,27 @@
 # limitations under the License.
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.actions import DeclareLaunchArgument
+from launch.actions import OpaqueFunction
+from launch.substitutions import LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_prefix = FindPackageShare(LaunchConfiguration('param_file_pkg'))
-    config = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('param_file')])
+    param_path = LaunchConfiguration('hello_world_param_file').perform(context)
+    if not param_path:
+        param_path = PathJoinSubstitution(
+            [FindPackageShare('hello_world'), 'config', 'hello_world.param.yaml']
+        ).perform(context)
 
     hello_world_node = Node(
-        name='hello_world_node',
-        namespace='',
         package='hello_world',
         executable='hello_world_node.py',
+        name='hello_world_node',
         parameters=[
-                config
+            param_path
         ],
         output='screen',
         arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs'],
@@ -44,21 +48,12 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     declared_arguments = []
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'param_file_pkg',
-            default_value='hello_world',
-            description='Package name which contains param file.'
+    def add_launch_arg(name: str, default_value: str = None):
+        declared_arguments.append(
+            DeclareLaunchArgument(name, default_value=default_value)
         )
-    )
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'param_file',
-            default_value='param/defaults.param.yaml',
-            description='Param file (relative path).'
-        )
-    )
+    add_launch_arg('hello_world_param_file', '')
 
     return LaunchDescription([
         *declared_arguments,

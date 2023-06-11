@@ -13,22 +13,23 @@
 # limitations under the License.
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument
+from launch.actions import OpaqueFunction
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-    pkg_prefix = FindPackageShare('hello_world')
-    config_rviz = PathJoinSubstitution([pkg_prefix, 'rviz/default.rviz'])
+    rviz_cfg_path = PathJoinSubstitution([FindPackageShare('hello_world'), 'rviz/default.rviz'])
 
     rviz2 = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        arguments=['-d', str(config_rviz.perform(context))],
+        arguments=['-d', str(rviz_cfg_path.perform(context))],
         condition=IfCondition(LaunchConfiguration('with_rviz'))
     )
 
@@ -40,13 +41,12 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     declared_arguments = []
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'with_rviz',
-            default_value='False',
-            description='Run RViz2.'
+    def add_launch_arg(name: str, default_value: str = None):
+        declared_arguments.append(
+            DeclareLaunchArgument(name, default_value=default_value)
         )
-    )
+
+    add_launch_arg('with_rviz', 'False')
 
     return LaunchDescription([
         *declared_arguments,

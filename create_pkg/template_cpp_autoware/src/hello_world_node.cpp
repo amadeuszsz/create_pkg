@@ -21,14 +21,8 @@ HelloWorldNode::HelloWorldNode(const rclcpp::NodeOptions & options)
 :  Node("hello_world", options)
 {
   hello_world_ = std::make_unique<hello_world::HelloWorld>();
-  const int64_t param_name = this->declare_parameter("param_name", 456);
-  hello_world_->setParameters(param_name);
-  this->foo();
-}
-
-void HelloWorldNode::foo()
-{
-  hello_world_->printHello();
+  param_name_ = this->declare_parameter("param_name", 456);
+  hello_world_->foo(param_name_);
 }
 
 }  // namespace hello_world

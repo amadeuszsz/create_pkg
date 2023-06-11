@@ -18,6 +18,6 @@
 TEST(TestHelloWorld, TestHello) {
   std::unique_ptr<hello_world::HelloWorld> hello_world_ =
     std::make_unique<hello_world::HelloWorld>();
-  auto result = hello_world_->printHello();
-  EXPECT_EQ(result, 123);
+  auto result = hello_world_->foo(999);
+  EXPECT_EQ(result, 999);
 }

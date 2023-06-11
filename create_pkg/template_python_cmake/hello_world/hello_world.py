@@ -18,12 +18,8 @@
 class HelloWorld:
 
     def __init__(self) -> None:
-        self._param_name = 123
+        pass
 
-    def set_parameters(self, **kwargs) -> None:
-        for arg in kwargs:
-            if hasattr(self, '_' + arg):
-                setattr(self, '_' + arg, kwargs[arg])
-
-    def execute(self) -> None:
-        print(f'Hello World, {self._param_name}')
+    def foo(self, bar: int) -> int:
+        print(f'Hello World, {bar}')
+        return bar

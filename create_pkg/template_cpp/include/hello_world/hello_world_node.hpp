@@ -31,7 +31,7 @@ public:
 
 private:
   HelloWorldPtr hello_world_{nullptr};
-  void foo();
+  int64_t param_name_{123};
 };
 }  // namespace hello_world
 

@@ -27,10 +27,8 @@ class HelloWorldNode(Node):
     def __init__(self):
         super().__init__('hello_world_node')
         self.hello_world = HelloWorld()
-        self.hello_world.set_parameters(
-            param_name=self.declare_parameter('param_name', 456).value
-        )
-        self.hello_world.execute()
+        self.param_name = self.declare_parameter('param_name', 456).value
+        self.hello_world.foo(self.param_name)
 
 
 def main(args=None):
