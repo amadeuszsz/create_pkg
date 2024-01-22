@@ -2,10 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(hello_world)
 
 find_package(ament_cmake_auto REQUIRED)
-ament_auto_find_build_dependencies(REQUIRED
-  ${${PROJECT_NAME}_BUILD_DEPENDS}
-  ${${PROJECT_NAME}_BUILDTOOL_DEPENDS}
-)
+ament_auto_find_build_dependencies()
 
 ament_python_install_package(${PROJECT_NAME})
 

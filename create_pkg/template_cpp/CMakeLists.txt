@@ -2,39 +2,19 @@ cmake_minimum_required(VERSION 3.14)
 project(hello_world)
 
 find_package(ament_cmake_auto REQUIRED)
-ament_auto_find_build_dependencies(REQUIRED
-  ${${PROJECT_NAME}_BUILD_DEPENDS}
-  ${${PROJECT_NAME}_BUILDTOOL_DEPENDS}
-)
+ament_auto_find_build_dependencies()
 
-add_compile_options(-Wall -Wextra -pedantic -Werror)
-
-set(HELLO_WORLD_LIB_SRC
+ament_auto_add_library(${PROJECT_NAME} SHARED
+  include/hello_world/hello_world.hpp
+  include/hello_world/visibility_control.hpp
   src/hello_world.cpp
 )
 
-set(HELLO_WORLD_LIB_HEADERS
-  include/hello_world/hello_world.hpp
-  include/hello_world/visibility_control.hpp
-)
-
-ament_auto_add_library(${PROJECT_NAME} SHARED
-  ${HELLO_WORLD_LIB_SRC}
-  ${HELLO_WORLD_LIB_HEADERS}
-)
-
-set(HELLO_WORLD_NODE_SRC
+ament_auto_add_library(${PROJECT_NAME}_node SHARED
+  include/hello_world/hello_world_node.hpp
   src/hello_world_node.cpp
 )
 
-set(HELLO_WORLD_NODE_HEADERS
-  include/hello_world/hello_world_node.hpp
-)
-
-ament_auto_add_library(${PROJECT_NAME}_node SHARED
-  ${HELLO_WORLD_NODE_SRC}
-  ${HELLO_WORLD_NODE_HEADERS}
-)
 rclcpp_components_register_node(${PROJECT_NAME}_node
   PLUGIN "hello_world::HelloWorldNode"
   EXECUTABLE ${PROJECT_NAME}_node_exe
